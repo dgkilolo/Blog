@@ -22,17 +22,16 @@ def index():
     return render_template('index.html', title = title, quote=quote  )
     
 
-# @main.route('/puns')
-# def pun():
-
-#     '''
-#     View root page function that returns the puns page and its data
-#     '''
-#     title = 'Pitch'
-#     pitches = Pitch.query.filter_by(category = 'pun').all()
-#     comment = Comment.query.filter_by(pitch_id = 1).all()
+@main.route('/home')
+def home():
+    '''
+    View root page function that returns the home page.
+    '''
+    title = 'Blog'
+    # pitches = Pitch.query.filter_by(category = 'pun').all()
+    # comment = Comment.query.filter_by(pitch_id = 1).all()
     
-#     return render_template('puns.html', title = title, pitches = pitches, comment=comment)
+    return render_template('home.html', title = title)
 
 # @main.route('/quotes')
 # def quote():

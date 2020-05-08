@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% if title %}
+    <title> {{ title }} </title>
+    {% else %}
+    <title>Blog</title>
+    {% endif %}
+  </head>
+  <body>       
+
+    <!-- Styles block -->
+    {% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    {% endblock %}
+
+    <!-- Content block -->
+    {% block content %}
+
+    <div class="container">
+      <!-- <form>
+        <input type="text" name="movie_query" placeholder="Search for a Movie" class="form-control">
+        <input type="submit"  value="Submit" class="btn btn-default">
+      </form>   -->
+
+      <div id="welcome">   
+        <div class="row">
+          <div class="col-md-6  ">
+            <blockquote class="blockquote text-center">
+              <p class="mb-0">This is the latest post</p>
+              <footer class="blockquote-footer"><cite>Kilolo</cite></footer>
+              <a  href=""><button style="float: right;" type="button" class="btn btn-primary btn-xs">COMMENT<br></button></a>
+            </blockquote>
+          </div>
+          <div class="col-md-6">
+            <blockquote class="blockquote text-center">
+              <p class="mb-0">Nature is more intresting than you think</p>
+              <footer class="blockquote-footer"><cite>Warden</cite></footer>
+              <a  href=""><button style="float: right;" type="button" class="btn btn-primary btn-xs">COMMENT<br></button></a>
+            </blockquote>
+          </div>
+        </div>   
+      </div>    
+    </div>
+    {% endblock %}
+    
+  </body>
+</html>
