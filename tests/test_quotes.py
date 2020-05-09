@@ -20,6 +20,4 @@ class QuotesTest(unittest.TestCase):
     self.assertTrue(isinstance(self.new_quote,Quotes))
 
 
-if __name__ == '__main__':
-    unittest.main()
 
