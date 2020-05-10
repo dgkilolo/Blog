@@ -1,9 +1,9 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
 from ..requests import get_quote
-from ..models import Writer, Posts
+from ..models import Writer, Posts, Comments
 from flask_login import login_required, current_user
-from .forms import UpdateProfile, NewPost
+from .forms import UpdateProfile, NewPost, NewComment
 from .. import db
 # import markdown2
 
@@ -87,6 +87,25 @@ def add_pitch():
   return render_template('newpost.html',title = title,pitch_form=form )
 
 
+@main.route('/<int:postId>/comment',methods=['GET','POST'])
+
+def post_comment(postId):
+#   user = User.query.filter_by(username = uname).first()
+  post = Posts.query.filter_by(id = postId).first()
+#   if user is None:
+#     abort(404)
+  form = NewComment()
+
+  if form.validate_on_submit():
+    new_comment = Comments(comment = form.comment.data, post_id = postId)
+    db.session.add(new_comment)
+    db.session.commit()
+    return redirect(url_for('.home'))
+  
+  comment_list = Comments.get_comments_by_post(postId)
+  
+  title = "New Comment"
+  return render_template('newcomment.html',title=title, comment_form=form, CommentPost=post, comment_list=comment_list)
 
 
 

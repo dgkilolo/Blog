@@ -12,6 +12,6 @@ class NewPost(FlaskForm):
   
   submit=SubmitField("Add Post")
 
-# class Feedback(FlaskForm):
-#   comment = TextAreaField("Comment", validators=[Required()])
-#   submit = SubmitField('Comment')
+class NewComment(FlaskForm):
+  comment = TextAreaField("Comment", validators=[Required()])
+  submit = SubmitField('Comment')

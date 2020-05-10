@@ -35,7 +35,7 @@
               <h2>{{post.description}}</h2>
               <p>{{post.title}}</p>            
               <div >
-                <a  href=""><button style="float: right;" type="button" class="btn btn-primary btn-xs">COMMENT<br></button></a>
+                <a  href="{{url_for('main.post_comment', postId = post.id)}}"><button style="float: right;" type="button" class="btn btn-primary btn-xs">COMMENT<br></button></a>
               </div> 
             </div>          
             {% endfor %} 

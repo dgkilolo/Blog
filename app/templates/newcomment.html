@@ -1,0 +1,33 @@
+{%extends 'base.html'%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block content%}
+  <div class="row text-center h3">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          {{CommentPost.title}}
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <p>{{CommentPost.post}}</p>
+            
+          </blockquote>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      {%for commentP in comment_list%}
+     <div class="text-center">
+       <blockquote>{{commentP.comment}}</blockquote>
+       
+     </div>
+      {%endfor%}
+        
+      <h3>Add a Comment</h3>
+      {{wtf.quick_form(comment_form)}}
+    </div>
+    <div class="col-md-2"></div>
+
+  </div>
+{%endblock%}

@@ -50,7 +50,7 @@ class Posts(db.Model):
   posted = db.Column(db.DateTime, default=datetime.utcnow)  
 #   user_id = db.Column(db.Integer, db.ForeignKey('writer.id'))
 #   category = db.Column(db.String(255))
-#   comments = db.relationship('Comment',backref = 'pitch',lazy="dynamic")
+  comments = db.relationship('Comments',backref = 'commentPost',lazy="dynamic")
   
 
   def save_post(self):
@@ -72,6 +72,34 @@ class Posts(db.Model):
   def get_post(cls,id):
     post=Posts.query.filter_by(id=id).first()
     return post
+
+
+class Comments(db.Model):
+  '''
+  this class defines characteristics of a comment
+  '''
+  __tablename__ = 'comments'
+  
+  id = db.Column(db.Integer, primary_key = True)
+  comment = db.Column(db.String(255))
+  # user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+  post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+
+  def save_comments(self):
+    db.session.add(self)
+    db.session.commit()
+
+  @classmethod
+  def get_comments_by_post(cls,id):
+    '''
+    function to retrieve comments based on the post_id
+    '''
+    comments_list = Comments.query.filter_by(post_id = id).all()
+
+    return comments_list
+
+  def __repr__(self):
+    return f'Comment {self.comment}'
 
 
 class Quotes:
