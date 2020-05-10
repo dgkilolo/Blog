@@ -1,9 +1,9 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
 from ..requests import get_quote
-from ..models import Writer
+from ..models import Writer, Posts
 from flask_login import login_required, current_user
-from .forms import UpdateProfile
+from .forms import UpdateProfile, NewPost
 from .. import db
 # import markdown2
 
@@ -28,10 +28,11 @@ def home():
     View root page function that returns the home page.
     '''
     title = 'Blog'
+    posts = Posts.query.all()
     # pitches = Pitch.query.filter_by(category = 'pun').all()
     # comment = Comment.query.filter_by(pitch_id = 1).all()
     
-    return render_template('home.html', title = title)
+    return render_template('home.html', title = title, posts=posts)
 
 @main.route('/writer/<uname>')
 def profile(uname):
@@ -58,12 +59,33 @@ def update_profile(uname):
     if form.validate_on_submit():
         writer.bio = form.bio.data
 
-        db.session.add(user)
+        db.session.add(writer)
         db.session.commit()
 
-        return redirect(url_for('.profile',uname=user.username))
+        return redirect(url_for('.profile',uname=writer.username))
 
     return render_template('profile/update.html',form =form)
+
+
+@main.route('/post', methods = ['GET','POST'])
+@login_required
+def add_pitch():
+  
+  form = NewPost()
+  if form.validate_on_submit():
+    title = form.title.data
+    post = form.post.data  
+    
+    # Updated post instance
+    new_post = Posts(title=title,description=post)
+
+    # Save post method
+    new_post.save_post()
+    return redirect(url_for('.home'))
+
+  title = 'New post'
+  return render_template('newpost.html',title = title,pitch_form=form )
+
 
 
 

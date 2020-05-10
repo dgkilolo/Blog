@@ -28,22 +28,19 @@
       </form>   -->
 
       <div id="welcome">   
-        <div class="row">
-          <div class="col-md-6  ">
-            <blockquote class="blockquote text-center">
-              <p class="mb-0">This is the latest post</p>
-              <footer class="blockquote-footer"><cite>Kilolo</cite></footer>
-              <a  href=""><button style="float: right;" type="button" class="btn btn-primary btn-xs">COMMENT<br></button></a>
-            </blockquote>
-          </div>
-          <div class="col-md-6">
-            <blockquote class="blockquote text-center">
-              <p class="mb-0">Nature is more intresting than you think</p>
-              <footer class="blockquote-footer"><cite>Warden</cite></footer>
-              <a  href=""><button style="float: right;" type="button" class="btn btn-primary btn-xs">COMMENT<br></button></a>
-            </blockquote>
-          </div>
-        </div>   
+        <div class="row">         
+          
+            {% for post in posts %}   
+            <div class="col-md-6">        
+              <h2>{{post.description}}</h2>
+              <p>{{post.title}}</p>            
+              <div >
+                <a  href=""><button style="float: right;" type="button" class="btn btn-primary btn-xs">COMMENT<br></button></a>
+              </div> 
+            </div>          
+            {% endfor %} 
+          
+        </div>         
       </div>    
     </div>
     {% endblock %}
