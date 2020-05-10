@@ -1,21 +1,27 @@
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
-# from flask_login import UserMixin
-# from . import login_manager
+from flask_login import UserMixin
+from . import login_manager
 # from datetime import datetime
 
-class User( db.Model):
-    __tablename__ = 'users'
+@login_manager.user_loader
+def load_user(writer_id):
+    return Writer.query.get(int(writer_id))
+
+
+class Writer(UserMixin, db.Model):
+    __tablename__ = 'writer'
     
     # reviews = db.relationship('Review',backref = 'user',lazy = "dynamic")
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255))
     email = db.Column(db.String(255),unique = True,index = True)
     
-    bio = db.Column(db.String(255))
-    profile_pic_path = db.Column(db.String())
-    password_secure = db.Column(db.String(255))
-    password_hash = db.Column(db.String(255))
+    
+    # bio = db.Column(db.String(255))
+    # profile_pic_path = db.Column(db.String())
+    # password_secure = db.Column(db.String(255))
+    # password_hash = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
 
     # pitches=db.relationship('Pitch',backref='user',lazy="dynamic")
@@ -34,6 +40,7 @@ class User( db.Model):
 
     def __repr__(self):
         return f'User {self.username}'
+
 
 class Quotes:
   '''
