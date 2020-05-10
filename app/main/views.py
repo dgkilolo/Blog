@@ -3,8 +3,8 @@ from . import main
 from ..requests import get_quote
 from ..models import Writer
 from flask_login import login_required, current_user
-# from .forms import UpdateProfile,NewPitch,Feedback
-# from .. import db,photos
+from .forms import UpdateProfile
+from .. import db
 # import markdown2
 
 # Views
@@ -33,6 +33,41 @@ def home():
     
     return render_template('home.html', title = title)
 
+@main.route('/writer/<uname>')
+def profile(uname):
+    writer = Writer.query.filter_by(username = uname).first()
+
+    if writer is None:
+        abort(404)
+
+    # pitches=Pitch.query.filter_by(user_id=user.id).all()
+    # category=Pitch.query.filter_by(category = " ").all()
+
+    return render_template("profile/profile.html", writer=writer)
+
+
+@main.route('/writer/<uname>/update',methods = ['GET','POST'])
+@login_required
+def update_profile(uname):
+    writer = Writer.query.filter_by(username = uname).first()
+    if writer is None:
+        abort(404)
+
+    form = UpdateProfile()
+
+    if form.validate_on_submit():
+        writer.bio = form.bio.data
+
+        db.session.add(user)
+        db.session.commit()
+
+        return redirect(url_for('.profile',uname=user.username))
+
+    return render_template('profile/update.html',form =form)
+
+
+
+
 # @main.route('/quotes')
 # def quote():
 
@@ -56,37 +91,9 @@ def home():
 #     return render_template('twister.html', title = title, pitches = pitches, comment=comment)
 
 
-# @main.route('/user/<uname>')
-# def profile(uname):
-#     user = User.query.filter_by(username = uname).first()
-
-#     if user is None:
-#         abort(404)
-
-#     pitches=Pitch.query.filter_by(user_id=user.id).all()
-#     category=Pitch.query.filter_by(category = " ").all()
-
-#     return render_template("profile/profile.html", user = user,pitches=pitches, category=category)
 
 
-# @main.route('/user/<uname>/update',methods = ['GET','POST'])
-# @login_required
-# def update_profile(uname):
-#     user = User.query.filter_by(username = uname).first()
-#     if user is None:
-#         abort(404)
 
-#     form = UpdateProfile()
-
-#     if form.validate_on_submit():
-#         user.bio = form.bio.data
-
-#         db.session.add(user)
-#         db.session.commit()
-
-#         return redirect(url_for('.profile',uname=user.username))
-
-#     return render_template('profile/update.html',form =form)
 
 
 # @main.route('/user/<uname>/update/pic',methods= ['POST'])
