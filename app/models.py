@@ -10,9 +10,8 @@ def load_user(writer_id):
 
 
 class Writer(UserMixin, db.Model):
-    __tablename__ = 'writer'
+    __tablename__ = 'writer'    
     
-    # reviews = db.relationship('Review',backref = 'user',lazy = "dynamic")
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255))
     email = db.Column(db.String(255),unique = True,index = True)    
@@ -82,6 +81,7 @@ class Comments(db.Model):
   
   id = db.Column(db.Integer, primary_key = True)
   comment = db.Column(db.String(255))
+  time = db.Column(db.DateTime, default=datetime.utcnow) 
   # user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
   post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
 
@@ -92,11 +92,12 @@ class Comments(db.Model):
   @classmethod
   def get_comments_by_post(cls,id):
     '''
-    function to retrieve comments based on the post_id
+    function to gets comments based on their post_id
     '''
     comments_list = Comments.query.filter_by(post_id = id).all()
 
     return comments_list
+  
 
   def __repr__(self):
     return f'Comment {self.comment}'

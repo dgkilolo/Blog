@@ -4,7 +4,8 @@ from ..requests import get_quote
 from ..models import Writer, Posts, Comments
 from flask_login import login_required, current_user
 from .forms import UpdateProfile, NewPost, NewComment
-from .. import db
+from .. import db,photos
+from datetime import datetime
 # import markdown2
 
 # Views
@@ -67,6 +68,19 @@ def update_profile(uname):
     return render_template('profile/update.html',form =form)
 
 
+@main.route('/writer/<uname>/update/pic',methods= ['POST'])
+@login_required
+def update_pic(uname):
+    writer = Writer.query.filter_by(username = uname).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        writer.profile_pic_path = path
+        db.session.commit()
+    return redirect(url_for('.profile',uname=uname))
+
+
+
 @main.route('/post', methods = ['GET','POST'])
 @login_required
 def add_pitch():
@@ -88,7 +102,6 @@ def add_pitch():
 
 
 @main.route('/<int:postId>/comment',methods=['GET','POST'])
-
 def post_comment(postId):
 #   user = User.query.filter_by(username = uname).first()
   post = Posts.query.filter_by(id = postId).first()
@@ -106,6 +119,16 @@ def post_comment(postId):
   
   title = "New Comment"
   return render_template('newcomment.html',title=title, comment_form=form, CommentPost=post, comment_list=comment_list)
+
+
+@main.route('/<int:commentId>/delete',methods = ['GET','POST'])
+def delete_comment(commentId):
+  comment = Comments.query.filter_by(id = commentId).first()  
+  db.session.delete(comment)
+  db.session.commit()
+  return redirect(url_for("main.post_comment", postId=comment.post_id))
+
+  
 
 
 
