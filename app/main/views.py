@@ -35,6 +35,17 @@ def home():
     
     return render_template('home.html', title = title, posts=posts)
 
+
+@main.route('/home/<int:postId>/deletePost',methods = ['GET','POST'])
+@login_required
+def delete_post(postId):
+  post = Posts.query.filter_by(id = postId).first()   
+  db.session.delete(post)
+  db.session.commit()
+  return redirect(url_for("main.home", postId=post.id))  
+  
+
+
 @main.route('/home/<int:postId>/changePost',methods = ['GET','POST'])
 @login_required
 def update_posts(postId):
@@ -153,170 +164,3 @@ def delete_comment(commentId):
   return redirect(url_for("main.post_comment", postId=comment.post_id))
 
   
-
-
-
-# @main.route('/quotes')
-# def quote():
-
-#     '''
-#     View root page function that returns the quote page and its data
-#     '''
-#     title = 'Pitch'
-#     pitches = Pitch.query.filter_by(category = 'quote').all()
-#     comment = Comment.query.filter_by(pitch_id = 3).all()
-#     return render_template('quotes.html', title = title, pitches = pitches, comment=comment)
-
-# @main.route('/twister')
-# def twister():
-
-#     '''
-#     View root page function that returns the tongue twister page and its data
-#     '''
-#     title = 'Pitch'
-#     pitches = Pitch.query.filter_by(category = 'tongue twister').all()
-#     comment = Comment.query.filter_by(pitch_id = 4).all()
-#     return render_template('twister.html', title = title, pitches = pitches, comment=comment)
-
-
-
-
-
-
-
-# @main.route('/user/<uname>/update/pic',methods= ['POST'])
-# @login_required
-# def update_pic(uname):
-#     user = User.query.filter_by(username = uname).first()
-#     if 'photo' in request.files:
-#         filename = photos.save(request.files['photo'])
-#         path = f'photos/{filename}'
-#         user.profile_pic_path = path
-#         db.session.commit()
-#     return redirect(url_for('main.profile',uname=uname))
-
-# @main.route('/puns/new/<userID>', methods = ['GET','POST'])
-# @login_required
-# def add_pitch(userID):
-#   user = User.query.filter_by(username = userID).first()  
-#   form = NewPitch()
-#   if form.validate_on_submit():
-#     title = form.title.data
-#     pitch = form.pitch.data  
-#     category = form.category.data
-
-#     # Updated pitch instance
-#     new_pitch = Pitch(title=title,description=pitch, user_id = user.id, category = category)
-
-#     # Save pitch method
-#     new_pitch.save_pitch()
-#     return redirect(url_for('.pun'))
-
-#   title = 'New pitch'
-#   return render_template('newpitch.html',title = title,pitch_form=form )
-
-
-# @main.route('/puns/new/<userID>/comment', methods = ['GET','POST'])  
-# @login_required
-# def add_comment(userID):
-#   user = User.query.filter_by(username = userID).first() 
-#   # pitch = Pitch.query.filter_by(id = pitch_id).first()
-#   form = Feedback()
-#   if form.validate_on_submit():
-    
-
-#     comment = form.comment.data
-
-#     # Updated comment instance
-#     new_comment = Comment(comment=comment, user_id = user.id)
-
-#     # Save comment method
-#     new_comment.save_comment()
-    
-#     return redirect(url_for('.pun'))
-  
-#   return render_template('newcomment.html' ,comment_form = form )
-
-
-# @main.route('/quotes/new/<userID>', methods = ['GET','POST'])
-# @login_required
-# def add_pitched(userID):
-#   user = User.query.filter_by(username = userID).first()  
-#   form = NewPitch()
-#   if form.validate_on_submit():
-#     title = form.title.data
-#     pitch = form.pitch.data     
-#     category = form.category.data
-
-#     # Updated pitch instance
-#     new_pitch = Pitch(title=title,description=pitch, user_id = user.id, category = category)
-
-#     # Save pitch method
-#     new_pitch.save_pitch()
-#     return redirect(url_for('.quote'))
-
-#   title = 'New pitch'
-#   return render_template('newpitch.html',title = title,pitch_form=form )
-
-
-# @main.route('/quotes/new/<userID>/comment', methods = ['GET','POST'])  
-# @login_required
-# def add_commented(userID):
-  
-#   form = Feedback()
-#   if form.validate_on_submit():
-    
-#     comment = form.comment.data
-
-#     # Updated comment instance
-#     new_comment = Comment(comment=comment)
-
-#     # Save comment method
-#     new_comment.save_comment()
-    
-#     return redirect(url_for('.quote'))
-  
-#   return render_template('newcomment.html' ,comment_form = form )
-
-  
-
-# @main.route('/twister/new/<userID>', methods = ['GET','POST'])
-# @login_required
-# def add_pitches(userID):
-#   user = User.query.filter_by(username = userID).first()  
-#   form = NewPitch()
-#   if form.validate_on_submit():
-#     title = form.title.data
-#     pitch = form.pitch.data     
-#     category = form.category.data
-
-#     # Updated pitch instance
-#     new_pitch = Pitch(title=title,description=pitch, user_id = user.id, category = category)
-
-#     # Save pitch method
-#     new_pitch.save_pitch()
-#     return redirect(url_for('.twister'))
-
-#   title = 'New pitch'
-#   return render_template('newpitch.html',title = title,pitch_form=form )
-
-
-# @main.route('/twister/new/<userID>/comment', methods = ['GET','POST'])  
-# @login_required
-# def add_commentes(userID):
-  
-#   form = Feedback()
-#   if form.validate_on_submit():
-    
-#     comment = form.comment.data
-
-#     # Updated comment instance
-#     new_comment = Comment(comment=comment)
-
-#     # Save comment method
-#     new_comment.save_comment()
-    
-#     return redirect(url_for('.twister'))
-  
-#   return render_template('newcomment.html' ,comment_form = form )
-
