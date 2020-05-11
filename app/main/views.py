@@ -3,7 +3,7 @@ from . import main
 from ..requests import get_quote
 from ..models import Writer, Posts, Comments
 from flask_login import login_required, current_user
-from .forms import UpdateProfile, NewPost, NewComment
+from .forms import UpdateProfile, NewPost, NewComment, UpdatePost
 from .. import db,photos
 from datetime import datetime
 # import markdown2
@@ -34,6 +34,25 @@ def home():
     # comment = Comment.query.filter_by(pitch_id = 1).all()
     
     return render_template('home.html', title = title, posts=posts)
+
+@main.route('/home/<int:postId>/changePost',methods = ['GET','POST'])
+@login_required
+def update_posts(postId):
+    post = Posts.query.filter_by(id = postId).first()
+    if post is None:
+        abort(404)
+
+    form = UpdatePost()
+
+    if form.validate_on_submit():
+        post.description = form.description.data
+
+        db.session.add(post)
+        db.session.commit()
+
+        return redirect(url_for('.home'))
+
+    return render_template('updateForm.html',form=form)
 
 @main.route('/writer/<uname>')
 def profile(uname):
@@ -66,6 +85,9 @@ def update_profile(uname):
         return redirect(url_for('.profile',uname=writer.username))
 
     return render_template('profile/update.html',form =form)
+
+
+
 
 
 @main.route('/writer/<uname>/update/pic',methods= ['POST'])
@@ -101,6 +123,8 @@ def add_pitch():
   return render_template('newpost.html',title = title,pitch_form=form )
 
 
+
+
 @main.route('/<int:postId>/comment',methods=['GET','POST'])
 def post_comment(postId):
 #   user = User.query.filter_by(username = uname).first()
@@ -113,7 +137,7 @@ def post_comment(postId):
     new_comment = Comments(comment = form.comment.data, post_id = postId)
     db.session.add(new_comment)
     db.session.commit()
-    return redirect(url_for('.home'))
+    return redirect(url_for('main.post_comment', postId=post.id))
   
   comment_list = Comments.get_comments_by_post(postId)
   
