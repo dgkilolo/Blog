@@ -1,4 +1,4 @@
-<div class="navbar navbar-inverse navbar-expand-lg " style="background-color: #020300;" role="navigation">
+<div class="navbar navbar-inverse navbar-expand-lg " style="background-color: #580C1F;" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -11,16 +11,8 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">              
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Categories
-        </a>
-        <div class="dropdown-menu bg-info" aria-labelledby="navbarDropdown" style="text-align: center; background-color: #020300;">
-          <a class="dropdown-item" href="/puns"><strong>Puns</strong></a><br>
-          <a class="dropdown-item" href="/quotes"><strong>Quotes</strong></a><br>          
-          <a class="dropdown-item" href="/twister"><strong>Tongue Twisters</strong></a><br>          
-        </div>
-      </li>  
+        <li><a href="/home">Posts</a></li>   
+      </ul>
       <ul class="nav navbar-nav navbar-right" >
         {% if current_user.is_authenticated %}
           <li><a href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a></li>          

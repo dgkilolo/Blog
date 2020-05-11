@@ -10,30 +10,20 @@
     <title>Pitch</title>
     {% endif %}
   </head>
-  <body>       
-
+  <body>      
     <!-- Styles block -->
     {% block styles%}
     {{ super() }}
     <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
     {% endblock %}
-
     <!-- Content block -->
     {% block content %}
-
-    <div class="container">
-      <!-- <form>
-        <input type="text" name="movie_query" placeholder="Search for a Movie" class="form-control">
-        <input type="submit"  value="Submit" class="btn btn-default">
-      </form>   -->
-
+    <div class="container">      
       <div id="welcome">
-        <br><br>        
-        <br>
-        <h1 id="heading" >BLOG !<br></h1>
+        <br>             
+        <h1 id="heading" class="heading" >BLOG !<br></h1>
         <p><u>LET'S JOURNEY TOGETHER</u></p>
-        <br><br><br>        
-        <br><br>
+        <br><br><br>               
         <a  href="/home"><button type="button" id="join" class="btn btn-primary btn-lg">WELCOME<br></button></a>
         <br><br><br><br>        
         <blockquote class="blockquote text-center">

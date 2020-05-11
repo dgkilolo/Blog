@@ -1,14 +1,22 @@
 {%extends 'base.html'%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
+<!-- Styles block -->
+{% block styles%}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+{% endblock %}
+
 {%block content%}
   <div class="row ">
     <div class="col-md-12" >    
-      
-      <blockquote class="blockquote text-center">
-        <footer class="blockquote-footer"><cite>{{CommentPost.title}}</cite></footer> <a  href="/home"><button style="float: left;" type="button" class="btn btn-primary btn-xs">< BACK<br></button></a>
-        <p class="mb-0">{{CommentPost.description}}</p>        
-      </blockquote>
+      <div class="card" style="text-align: center;" >                  
+        <div class="card-body">
+          <h2 class="card-title">~{{CommentPost.title}}~</h2>
+          <p class="card-text">{{CommentPost.description}}</p>   
+          <a  href="/home"><button  type="button" class="btn btn-primary btn-xs">< BACK<br></button></a>                                
+        </div>
+      </div>      
       <hr>
     </div>
   </div>

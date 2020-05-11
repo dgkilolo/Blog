@@ -49,33 +49,31 @@ def delete_post(postId):
 @main.route('/home/<int:postId>/changePost',methods = ['GET','POST'])
 @login_required
 def update_posts(postId):
-    post = Posts.query.filter_by(id = postId).first()
-    if post is None:
-        abort(404)
+  post = Posts.query.filter_by(id = postId).first()
+  if post is None:
+      abort(404)
 
-    form = UpdatePost()
+  form = UpdatePost()
 
-    if form.validate_on_submit():
-        post.description = form.description.data
+  if form.validate_on_submit():
+    post.description = form.description.data
 
-        db.session.add(post)
-        db.session.commit()
+    db.session.add(post)
+    db.session.commit()
 
-        return redirect(url_for('.home'))
+    return redirect(url_for('.home'))
 
-    return render_template('updateForm.html',form=form)
+  title = "Edit Post"
+  return render_template('updateForm.html',form=form, title=title)
 
 @main.route('/writer/<uname>')
 def profile(uname):
-    writer = Writer.query.filter_by(username = uname).first()
+  writer = Writer.query.filter_by(username = uname).first()
 
-    if writer is None:
-        abort(404)
-
-    # pitches=Pitch.query.filter_by(user_id=user.id).all()
-    # category=Pitch.query.filter_by(category = " ").all()
-
-    return render_template("profile/profile.html", writer=writer)
+  if writer is None:
+      abort(404)
+  title = "Profile"
+  return render_template("profile/profile.html", writer=writer, title=title)
 
 
 @main.route('/writer/<uname>/update',methods = ['GET','POST'])
