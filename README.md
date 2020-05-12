@@ -7,6 +7,7 @@ Blog is an application that enables the user to add posts to their blog. Each po
 * Blog application users are greated by the landing page where a random tech quote is displayed. This helps to give some inspiration or simply some humour to tech users of the blog. Tech was chosen as the user is a tech head!
 The writer is expected to sign in with their account details so that they can access the writer features such as posting and editing posts.
 The readers can simply hit the Welcome button and head straight to the posts. They can then add comments as well as view other posts from other readers.
+~ The writer must sign in to see the buttons that upload and delete posts.
 ## Technologies Used
 This project was created using Python.
 SQL database provides storage from the various writer and reader features
